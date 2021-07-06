@@ -7,7 +7,7 @@
   <title>Drawflow</title>
 </head>
 <body>
-  <script src="drawflow.min.js"></script>
+  <script src="dist/drawflow.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="src/drawflow.css" />
   <link rel="stylesheet" type="text/css" href="docs/beautiful.css" />
@@ -311,7 +311,6 @@
       pos_x = pos_x * ( editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)) - (editor.precanvas.getBoundingClientRect().x * ( editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)));
       pos_y = pos_y * ( editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)) - (editor.precanvas.getBoundingClientRect().y * ( editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)));
 
-
       switch (name) {
         case 'facebook':
         var facebook = `
@@ -501,6 +500,15 @@
         unlock.style.display = 'none';
       }
 
+    }
+
+    function testNewFunctions() {
+      var nodeId = 5;
+      var target = editor.getNodeFromId(nodeId);
+      var inputNodes = editor.getInputNodesFromId(nodeId);
+      var outputNodes = editor.getOutputNodesFromId(nodeId);
+      var inputNodesByInput = editor.getConnectedNodesFromInput(nodeId, 'input_1');
+      var outputNodesByOutput = editor.getConnectedNodesFromOutput(nodeId, 'output_1');
     }
 
   </script>

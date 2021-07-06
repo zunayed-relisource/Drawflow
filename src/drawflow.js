@@ -1305,6 +1305,81 @@ export default class Drawflow {
     var moduleName = this.getModuleFromNodeId(id)
     return JSON.parse(JSON.stringify(this.drawflow.drawflow[moduleName].data[id]));
   }
+
+  getNodeFromName(name) {
+    var data = this.drawflow.drawflow['Home'].data;
+    var nodeIds = Object.keys(data).filter(function(id, index) {
+      return data[id].name === name;
+    });
+    if (nodeIds && nodeIds.length) {
+      return this.getNodeFromId(+nodeIds[0]);
+    }
+    return null;
+  }
+
+  getInputNodesFromId(id) {
+    var nodes = [];
+    var node = this.getNodeFromId(id);
+    var scope = this;
+    if (node) {
+      Object.keys(node.inputs).forEach(function(key) {
+        var input = node.inputs[key];
+        var connectedNodes = scope.getNodesFromConnections(input.connections, scope);
+        connectedNodes.forEach(function(cNode) {
+          nodes.push(cNode);
+        });
+      });
+    }
+    return nodes;
+  }
+
+  getOutputNodesFromId(id) {
+    var nodes = [];
+    var node = this.getNodeFromId(id);
+    var scope = this;
+    if (node) {
+      Object.keys(node.outputs).forEach(function(key) {
+        var output = node.outputs[key];
+        var connectedNodes = scope.getNodesFromConnections(output.connections, scope);
+        connectedNodes.forEach(function(cNode) {
+          nodes.push(cNode);
+        });
+      });
+    }
+    return nodes;
+  }
+
+  getConnectedNodesFromInput(nodeId, inputId) {
+    var nodes = [];
+    var node = this.getNodeFromId(nodeId);
+    var scope = this;
+    if (node) {
+      var input = node.inputs[inputId];
+      if (input) nodes = this.getNodesFromConnections(input.connections, scope);
+    }
+    return nodes;
+  }
+
+  getConnectedNodesFromOutput(nodeId, outputId) {
+    var nodes = [];
+    var node = this.getNodeFromId(nodeId);
+    var scope = this;
+    if (node) {
+      var output = node.outputs[outputId];
+      if (output) nodes = this.getNodesFromConnections(output.connections, scope);
+    }
+    return nodes;
+  }
+
+  getNodesFromConnections(connections, scope) {
+    var nodes = [];
+    connections.forEach(function(connection) {
+      var connectedNode = scope.getNodeFromId(+connection.node);
+      if (connectedNode) nodes.push(connectedNode);
+    });
+    return nodes;
+  }
+
   getNodesFromName(name) {
     var nodes = [];
     const editor = this.drawflow.drawflow
@@ -1391,6 +1466,7 @@ export default class Drawflow {
       } else {
         var elems = content.querySelectorAll('[df-'+key[0]+']');
           for(var i = 0; i < elems.length; i++) {
+            setContent(elems[i], key[1]);
             elems[i].value = key[1];
           }
       }
@@ -1409,6 +1485,7 @@ export default class Drawflow {
           } else {
             var elems = content.querySelectorAll('[df-'+completname+'-'+key[0]+']');
               for(var i = 0; i < elems.length; i++) {
+                setContent(elems[i], key[1]);
                 elems[i].value = key[1];
               }
           }
@@ -1524,6 +1601,7 @@ export default class Drawflow {
       } else {
         var elems = content.querySelectorAll('[df-'+key[0]+']');
           for(var i = 0; i < elems.length; i++) {
+            setContent(elems[i], key[1]);
             elems[i].value = key[1];
           }
       }
@@ -1542,6 +1620,7 @@ export default class Drawflow {
           } else {
             var elems = content.querySelectorAll('[df-'+completname+'-'+key[0]+']');
               for(var i = 0; i < elems.length; i++) {
+                setContent(elems[i], key[1]);
                 elems[i].value = key[1];
               }
           }
@@ -1631,6 +1710,7 @@ export default class Drawflow {
         } else {
           var elems = content.querySelectorAll('[df-'+key[0]+']');
             for(var i = 0; i < elems.length; i++) {
+              setContent(elems[i], key[1]);
               elems[i].value = key[1];
             }
         }
@@ -1649,6 +1729,7 @@ export default class Drawflow {
             } else {
               var elems = content.querySelectorAll('[df-'+completname+'-'+key[0]+']');
                 for(var i = 0; i < elems.length; i++) {
+                  setContent(elems[i], key[1]);
                   elems[i].value = key[1];
                 }
             }
@@ -2076,5 +2157,23 @@ export default class Drawflow {
         var uuid = s.join("");
         return uuid;
     }
+}
 
+function setContent(element, content) {
+  const nodeName = element.nodeName.toLowerCase();
+  switch (nodeName) {
+    case 'input':
+    case 'textarea':
+    case 'select':
+      element.value = content;
+      break;
+    case 'p':
+    case 'div':
+    case 'span':
+      element.innerText = content;
+      break;
+    default:
+      element.innerHTML = content;
+      break;
+  }
 }
