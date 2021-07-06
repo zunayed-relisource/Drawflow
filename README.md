@@ -18,24 +18,36 @@ Installing only a javascript library and with four lines of code.
 🎨 [THEME EDIT GENERATOR](https://jerosoler.github.io/drawflow-theme-generator/)
 
 ## Table of contents
-- [Features](#features)
-- [Installation](#installation)
-  - [Running](#running)
-- [Mouse and  Keys](#mouse-and-keys)
-- [Editor](#editor)
-  - [Options](#editor-options)
-- [Modules](#modules)
-- [Nodes](#nodes)
-  - [Node example](#node-example)
-  - [Register Node](#register-node)
-- [Methods](#methods)
-  - [Methods example](#methods-example)
-- [Events](#events)
-  - [Events example](#events-example)
-- [Export / Import](#export-/-import)
-  - [Export example](#export-example)
-- [Example](#example)
-- [License](#license)
+- [Drawflow](#drawflow)
+  - [Table of contents](#table-of-contents)
+  - [Features](#features)
+  - [Installation](#installation)
+      - [Clone](#clone)
+      - [CDN](#cdn)
+      - [NPM](#npm)
+    - [Typescript](#typescript)
+      - [Import](#import)
+      - [Require](#require)
+    - [Running](#running)
+    - [For vue 2 example.](#for-vue-2-example)
+    - [For vue 3 example.](#for-vue-3-example)
+    - [Nuxt](#nuxt)
+  - [Mouse and  Keys](#mouse-and--keys)
+  - [Editor](#editor)
+    - [Editor options](#editor-options)
+    - [Reroute](#reroute)
+  - [Modules](#modules)
+  - [Nodes](#nodes)
+    - [Node example](#node-example)
+    - [Register Node](#register-node)
+  - [Methods](#methods)
+    - [Methods example](#methods-example)
+  - [Events](#events)
+    - [Events example](#events-example)
+  - [Export / Import](#export--import)
+    - [Export example](#export-example)
+  - [Example](#example)
+  - [License](#license)
 
 ## Features
 - Drag Nodes
@@ -268,6 +280,12 @@ Mehtod | Description
 `getModuleFromNodeId(id)` | Get name of module where is the id. Ex id: `5`
 `clearModuleSelected()` | Clear data of module selected
 `clear()` | Clear all data of all modules and modules remove.
+`getNodeFromName(name)` | Get Info of node. Ex: name: `telegram`
+`getInputNodesFromId(id)` | Get connected input nodes of a node. Ex: id: `5`
+`getOutputNodesFromId(id)` | Get connected output nodes of a node. Ex: id: `5`
+`getConnectedNodesFromInput(nodeId, inputId)` | Get connected nodes of a node's specific input. Ex: `5,'input_1'`
+`getConnectedNodesFromOutput(nodeId, outputId)` | Get connected nodes of a node's specific output. Ex: `5,'output_1'`
+
 
 ### Methods example
 
